@@ -1,0 +1,157 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require framework_and_overrides
+ *= require bootstrap-datepicker3
+ *= require animate
+ *= require home
+ *= require_self
+ */
+
+
+ html, body {
+   height: 100%;
+ }
+
+ #wrap {
+   min-height: 100%;
+ }
+
+ #main {
+   overflow:auto;
+   padding-bottom:80px; /* this needs to be bigger than footer height*/
+ }
+
+ .footer {
+   position: relative;
+   margin-top: -80px; /* negative value of footer height */
+   height: 80px;
+   clear:both;
+   padding-top:20px;
+ }
+
+
+ /* Align a bit with Shopify Admin */
+ body {
+   background-color: #EBEEF0;
+   color: #798C9C;
+
+ }
+ .top-buffer {
+   margin-top:15px;
+ }
+ .navbar-btn {
+   margin-top: 11px;
+   margin-bottom: 8px;
+   margin-right: 15px;
+ }
+
+ .navbar-inverse {
+    background-color: #31373D;
+    border-color: #31373D;
+  }
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+  color: #FFF;
+  background-color: #272C30 !important;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+    color: #96A7B6;
+  }
+
+  .btn-file {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-file input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+  }
+
+ .well {
+   background: #fff;
+ }
+ h1,h2, h3, .h1, .h2, .h3 {
+   font-weight: 300;
+ }
+ h4, h5, h6, .h4, .h5, .h6 {
+   font-weight: 400;
+ }
+ h1, .h1 {
+   font-size: 42px;
+ }
+ h2, .h2 {
+   font-size: 42px;
+   color: #479CCF;
+ }
+ h2.main-metric {
+   font-weight: 500;
+ }
+
+ .panel h2, .panel .h2 {
+   margin-top: 15px;
+   margin-bottom: 15px;
+   line-height: 52px;
+ }
+ #chart_tile h3 {
+   margin-top: 10px;
+ }
+ .panel h3, .panel .h3 {
+   font-size: 26px;
+   line-height: 22px;
+   text-transform: uppercase;
+   text-align: center
+ }
+ h3 small, .h3 .small {
+   font-size: 60%;
+   margin-right: 10px;
+   color: #C3CFD8;
+ }
+
+ h4, .h4 {
+   color: #798C9C;
+   text-transform: uppercase;
+ }
+
+ h5, .h5 {
+   color: #C3CFD8;
+   text-transform: uppercase;
+ }
+
+ #filter_form {
+   margin-top: 2em;
+ }
+
+ .btn-primary, .submit {
+   background-color: #479CCF;
+ }
+ .text-success {
+   color: #96BF48;
+ }
+ .text-danger {
+   color: #FF5D5D;
+ }
+ .panel-footer {
+   background: #fff;
+   text-transform: uppercase;
+ }

@@ -1,0 +1,16 @@
+<form accept-charset="UTF-8" action="<%= url_for(action: action_name) %>" method="get" id="filter_form" class="form-inline pull-right">
+  <div class="form-group">
+    <input name="utf8" type="hidden" value="✓">
+    <% if !@app_titles.blank? %>
+    <select id="app_title" class="form-control" name="app_title" onchange="$('#filter_form').submit();">
+      <%= options_for_select(@app_titles, @app_title) %>
+    </select>
+    <% end %>
+    <select id="period" class="form-control" name="period" onchange="$('#filter_form').submit();">
+      <%= options_for_select([['Monthly', 30], ['Weekly', 7], ['Daily', 1]], @period) %>
+    </select>
+    <input id="date" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-end-date="<%= @latest_metric_date %>"class="form-control" name="date" onchange="$('#filter_form').submit();" type="text" value="<%= @date %>">
+    <input id="chart" name="chart" type="hidden" value='<%= @chart_tile["type"] %>'>
+    <input type="submit" value="Filter" style="display: none;">
+  </div>
+</form>

@@ -1,0 +1,51 @@
+  <div id="heading_row" class="row animated fadeIn">
+    <%= render "heading_row", title: "One-Time Revenue" %>
+  </div>
+
+  <% if !@metrics.blank? %>
+
+  <div class="row" id="chart_tile">
+    <%= render "chart_tile" %>
+  </div>
+
+  <div class="row" id="metric_tiles">
+    <%= render "metric_tiles" %>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="panel panel-default animated fadeIn">
+        <div class="panel-body">
+          <%= pie_chart Metric.where(charge_type: "onetime_revenue", metric_date: @date_last..@date).group(:app_title).sum(:revenue) %>
+        </div>
+        <div class="panel-footer text-center">
+          <h5>Revenue Split</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="panel panel-default animated fadeIn">
+        <div class="panel-body">
+          <%= column_chart Metric.where(charge_type: "onetime_revenue").group(:app_title).sum(:revenue) %>
+        </div>
+        <div class="panel-footer text-center">
+          <h5>All Time Revenue</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% else %>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default animated shake">
+          <div class="panel-body">
+            <div class="col-sm-12 text-center">
+              <h2>Hmmm...</h2>
+                <p>We didn't find any One-Time Revenue! :(</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>

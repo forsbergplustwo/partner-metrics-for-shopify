@@ -1,0 +1,82 @@
+<% metric_value = @metrics.calculate_value(@chart_tile) %>
+<% metric_change = @metrics.calculate_change(@chart_tile, @previous_metrics) %>
+<div class="col-sm-12">
+  <div class="panel panel-default animated fadeIn metric_tile">
+    <div class="panel-body">
+      <div class="col-xs-12 col-sm-3 hidden-xs">
+        <% if @chart_tile["display"] == "number" %>
+          <h2 class="main-metric"><%= metric_value %></h2>
+        <% elsif @chart_tile["display"] == "percentage" %>
+          <h2 class="main-metric"><%= number_to_percentage(metric_value, precision: 2) %></h2>
+        <% else %>
+          <h2 class="main-metric"><%= number_to_currency_with_precision(metric_value) %></h2>
+        <% end %>
+      </div>
+      <div class="col-xs-12 col-sm-6 text-center">
+        <h3><%= @chart_tile["title"] %></h3>
+      </div>
+      <div class="col-xs-12 col-sm-3 hidden-xs">
+        <h3 class="pull-right text-right <%= metric_change_color(metric_change, @chart_tile["direction_good"]) %>">
+          <%= number_to_percentage_with_precision(metric_change) %>
+          <br>
+          <small><%= pluralize(@period, 'day') %> ago</small>
+        </h3>
+      </div>
+      <div class="col-xs-12">
+        <%= area_chart chart_data_path(date: @date, period: @period, chart_type: @chart_tile, app_title: @app_title), library: {colors: ["#7AB55C"]} %>
+        <hr>
+      </div>
+      <div class="col-xs-12 text-center visible-xs">
+        <h5>Current</h5>
+        <% value = metric_value %>
+        <% if @chart_tile["display"] == "number" %>
+        <h3><%= value %></h3>
+        <% elsif @chart_tile["display"] == "percentage" %>
+        <h3><%= number_to_percentage(value, precision: 2) %></h3>
+        <% else %>
+        <h3><%= number_to_currency_with_precision(value) %></h3>
+        <% end %>
+      </div>
+      <% if show_averages(@period, @chart_tile) %>
+        <% column_size = "col-xs-6 col-sm-2"%>
+        <div class="<%= column_size %> text-center">
+          <h5>Daily Avg</h5>
+          <% value = metric_value / @period * 1 %>
+          <% if @chart_tile["display"] == "number" %>
+          <h3><%= value %></h3>
+          <% elsif @chart_tile["display"] == "percentage" %>
+          <h3><%= number_to_percentage(value, precision: 2) %></h3>
+          <% else %>
+          <h3><%= number_to_currency_with_precision(value) %></h3>
+          <% end %>
+        </div>
+        <div class="<%= column_size %> text-center">
+          <h5>Weekly Avg</h5>
+          <% value = metric_value / @period * 7 %>
+          <% if @chart_tile["display"] == "number" %>
+          <h3><%= value %></h3>
+          <% elsif @chart_tile["display"] == "percentage" %>
+          <h3><%= number_to_percentage(value, precision: 2) %></h3>
+          <% else %>
+          <h3><%= number_to_currency_with_precision(value) %></h3>
+          <% end %>
+        </div>
+      <% else %>
+      <% column_size = "col-xs-6 col-sm-3"%>
+      <% end %>
+        <% periods_ago(@period).each do |period_ago| %>
+        <div class="<%= column_size %> text-center">
+          <% value = Metric.calculate_value_period_ago(period_ago, @date, @period, @chart_tile, @app_title) %>
+          <h5><%= pluralize(period_ago, period_word(@period)) %> Ago</h5>
+          <% if @chart_tile["display"] == "number" %>
+          <h3><%= value %></h3>
+          <% elsif @chart_tile["display"] == "percentage" %>
+          <h3><%= number_to_percentage(value, precision: 2) %></h3>
+          <% else %>
+          <h3><%= number_to_currency_with_precision(value) %></h3>
+          <% end %>
+        </div>
+        <% end %>
+    </div>
+  </div>
+</div>

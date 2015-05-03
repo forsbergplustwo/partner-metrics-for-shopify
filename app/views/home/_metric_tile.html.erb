@@ -1,0 +1,30 @@
+<% metric_value = @metrics.calculate_value(tile) %>
+<% metric_change = @metrics.calculate_change(tile, @previous_metrics) %>
+<div class="col-md-4 col-sm-6">
+  <a title="Click to View Chart" data-toggle="tooltip" data-placement="top" href='<%= url_for(action: action_name, anchor: "top", date: @date, period: @period, chart: tile["type"], app_title: @app_title) %>'>
+    <div class="panel panel-default animated fadeInUpBig metric_tile">
+      <div class="panel-body">
+        <div class="col-xs-6">
+          <% if tile["display"] == "number" %>
+          <h2><%= metric_value %></h2>
+          <% elsif tile["display"] == "percentage" %>
+          <h2><%= number_to_percentage(metric_value, precision: 2) %></h2>
+          <% else %>
+          <h2><%= number_to_currency_with_precision(metric_value) %></h2>
+          <% end %>
+        </div>
+        <div class="col-xs-6">
+          <h3 class="pull-right text-right <%= metric_change_color(metric_change, tile["direction_good"]) %>">
+            <%= number_to_percentage_with_precision(metric_change) %>
+            <br>
+            <small><%= pluralize(@period, 'day') %> ago</small>
+          </h3>
+        </div>
+        <div class="col-xs-12 text-center">
+          <hr>
+          <h5><%= tile["title"] %></h5>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
