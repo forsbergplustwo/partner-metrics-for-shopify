@@ -62,26 +62,22 @@ git clone https://github.com/forsbergplustwo/partner-metrics-for-shopify
 bundle install
 ```
 
-2. Update the database.yml file with your database connection settings:
+3. Update the database.yml file with your database connection settings.
 
-```
-bundle install
-```
-
-3. Create the database and run migrations
+4. Create the database and run migrations
 
 ```
 rake db:create
 rake db:migrate
 ```
 
-4. And start your server
+5. And start your server
 
 ```
 rails s
 ```
 
-5. Navigate http://localhost:3000 and start using the app.
+6. Navigate http://localhost:3000 and start using the app.
 
 Importing Your Data
 -------------------
