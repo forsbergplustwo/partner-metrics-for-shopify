@@ -50,34 +50,34 @@ Supported Metrics
 Installation
 ------------
 
-1. Clone the app:
+Clone the app:
 
 ```
 git clone https://github.com/forsbergplustwo/partner-metrics-for-shopify
 ```
 
-2. Then run:
+Then run:
 
 ```
 bundle install
 ```
 
-3. Update the database.yml file with your database connection settings.
+Update the database.yml file with your database connection settings.
 
-4. Create the database and run migrations
+Create the database and run migrations
 
 ```
 rake db:create
 rake db:migrate
 ```
 
-5. And start your server
+And start your server
 
 ```
 rails s
 ```
 
-6. Navigate http://localhost:3000 and start using the app.
+Navigate http://localhost:3000 and start using the app.
 
 Importing Your Data
 -------------------
