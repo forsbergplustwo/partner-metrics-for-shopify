@@ -5,15 +5,17 @@ class PaymentHistory < ActiveRecord::Base
     def import_csv(last_calculated_metric_date, filename)
       PaymentHistory.where("payment_date > ?", last_calculated_metric_date).delete_all
       options = {:key_mapping => {:payment_duration => nil, :payment_date => nil, :charge_creation_time => :payment_date, :partner_share => :revenue}}
-      c = SmarterCSV.process(filename, options) do |csv|
-        if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
-          csv.first[:app_title] = "FORSBERGtwo" if csv.first[:app_title].blank?
-          csv.first[:charge_type] = "recurring_revenue" if csv.first[:charge_type] == "RecurringApplicationFee"
-          csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "OneTimeApplicationFee"
-          csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "ThemePurchaseFee"
-          csv.first[:charge_type] = "affiliate_revenue" if csv.first[:charge_type] == "AffiliateFee"
-          csv.first[:charge_type] = "refund" if csv.first[:charge_type] == "Manual"
-          PaymentHistory.create(csv.first)
+      PaymentHistory.transaction do
+        c = SmarterCSV.process(filename, options) do |csv|
+          if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
+            csv.first[:app_title] = "FORSBERGtwo" if csv.first[:app_title].blank?
+            csv.first[:charge_type] = "recurring_revenue" if csv.first[:charge_type] == "RecurringApplicationFee"
+            csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "OneTimeApplicationFee"
+            csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "ThemePurchaseFee"
+            csv.first[:charge_type] = "affiliate_revenue" if csv.first[:charge_type] == "AffiliateFee"
+            csv.first[:charge_type] = "refund" if csv.first[:charge_type] == "Manual"
+            PaymentHistory.create(csv.first)
+          end
         end
       end
     end
