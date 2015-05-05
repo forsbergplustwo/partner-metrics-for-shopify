@@ -24,17 +24,17 @@
       </div>
       <div class="col-xs-12">
         <%= area_chart chart_data_path(date: @date, period: @period, chart_type: @chart_tile, app_title: @app_title), library: {colors: ["#7AB55C"]} %>
-        <hr>
+        <hr class="hidden-xs">
       </div>
       <div class="col-xs-12 text-center visible-xs">
         <h5>Current</h5>
         <% value = metric_value %>
         <% if @chart_tile["display"] == "number" %>
-        <h3><%= value %></h3>
+        <h2><%= value %></h2>
         <% elsif @chart_tile["display"] == "percentage" %>
-        <h3><%= number_to_percentage(value, precision: 2) %></h3>
+        <h2><%= number_to_percentage(value, precision: 2) %></h2>
         <% else %>
-        <h3><%= number_to_currency_with_precision(value) %></h3>
+        <h2><%= number_to_currency_with_precision(value) %></h2>
         <% end %>
       </div>
       <% if show_averages(@period, @chart_tile) %>
