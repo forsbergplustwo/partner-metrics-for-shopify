@@ -62,7 +62,19 @@ Then run:
 bundle install
 ```
 
-Update the database.yml file with your database connection settings.
+Create a database.yml file with your database connection settings.
+
+```
+development:
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  database: PartnerMetrics_development
+  pool:     5
+  username: Admin
+  password:
+  template: template0
+```
 
 Create the database and run migrations
 
