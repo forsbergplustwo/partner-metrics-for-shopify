@@ -12,8 +12,7 @@ gem 'spring',        group: :development
 gem 'bootstrap-sass'
 gem 'high_voltage'
 gem 'pg'
-gem 'unicorn'
-gem 'unicorn-rails'
+gem 'thin'
 
 gem "remotipart", "~> 1.0"
 gem 'smarter_csv'
