@@ -86,10 +86,10 @@ rake db:migrate
 And start your server
 
 ```
-rails s
+foreman start
 ```
 
-Navigate http://localhost:3000 and start using the app.
+Navigate http://localhost:5000 and start using the app.
 
 Importing Your Data
 -------------------
