@@ -67,6 +67,7 @@
         <% periods_ago(@period).each do |period_ago| %>
         <div class="<%= column_size %> text-center">
           <% value = Metric.calculate_value_period_ago(period_ago, @date, @period, @chart_tile, @app_title) %>
+          <% change = (metric_value / value * 100) - 100 %>
           <h5><%= pluralize(period_ago, period_word(@period)) %> Ago</h5>
           <% if @chart_tile["display"] == "number" %>
           <h3><%= value %></h3>
@@ -75,6 +76,8 @@
           <% else %>
           <h3><%= number_to_currency_with_precision(value) %></h3>
           <% end %>
+          <h5 class="<%= metric_change_color(change, @chart_tile["direction_good"]) %>">
+          <%= number_to_percentage_with_precision(change) %></h5>
         </div>
         <% end %>
     </div>
