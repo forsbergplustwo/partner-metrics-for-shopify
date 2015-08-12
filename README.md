@@ -91,6 +91,8 @@ foreman start
 
 Navigate http://localhost:5000 and start using the app.
 
+**Note** I decided to run this app on port 5000, so that this app can be up and running while still developing and testing other apps on port 3000.
+
 Importing Your Data
 -------------------
 
