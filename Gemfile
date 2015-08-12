@@ -13,6 +13,7 @@ gem 'bootstrap-sass'
 gem 'high_voltage'
 gem 'pg'
 gem 'thin'
+gem 'foreman'
 
 gem "remotipart", "~> 1.0"
 gem 'smarter_csv'
