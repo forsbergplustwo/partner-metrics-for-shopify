@@ -33,7 +33,7 @@ class Metric < ActiveRecord::Base
     {"type" => "affiliate_avg_revenue_per_shop", "title" => "Avg. Revenue per User", "calculation" => "average", "metric_type" => "affiliate_revenue", "column" => "average_revenue_per_shop", "display" => "currency", "direction_good" => "up"}
   ]
 
-  MONTHS_AGO = [1,3,6,12]
+  MONTHS_AGO = [1,3,6,12,24]
 
 
 
@@ -73,7 +73,7 @@ class Metric < ActiveRecord::Base
         current = current.average(type["column"])
         previous = previous.average(type["column"])
       end
-      change = (current.to_f - previous) / current * 100
+      change = (current.to_f / previous * 100) - 100
       change
     end
 
