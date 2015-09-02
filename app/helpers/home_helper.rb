@@ -40,11 +40,11 @@ module HomeHelper
 
   def periods_ago(period)
     if period == 30
-      return [1, 3, 6, 12, 24]
+      return [1, 2, 3, 6, 12]
     elsif period == 7
       return [1, 2, 4, 8,12]
     else
-      return [1, 7, 14, 30,90]
+      return [1, 7, 14, 30,60]
     end
   end
 
