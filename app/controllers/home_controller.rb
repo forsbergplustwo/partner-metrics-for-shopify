@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 
-  http_basic_authenticate_with name: "metrics", password: "secret", only: [:index, :recurring, :onetime, :affiliate]
+  #http_basic_authenticate_with name: "metrics", password: "secret", only: [:index, :recurring, :onetime, :affiliate]
 
   before_action :set_params, except: [:chart_date, :import]
 
