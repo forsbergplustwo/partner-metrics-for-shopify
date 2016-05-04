@@ -75,7 +75,7 @@ class HomeController < ApplicationController
 
   def import
     last_calculated_metric = Metric.order("metric_date").last
-    last_calculated_metric_date = last_calculated_metric.blank? ? 36.months.ago.to_date : last_calculated_metric.metric_date
+    last_calculated_metric_date = last_calculated_metric.blank? ? 60.months.ago.to_date : last_calculated_metric.metric_date
     filename = params[:file].path
     PaymentHistory.import_csv(last_calculated_metric_date, filename)
     PaymentHistory.calculate_metrics
