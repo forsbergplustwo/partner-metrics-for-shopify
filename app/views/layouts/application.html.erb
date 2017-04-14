@@ -82,6 +82,9 @@
         //document.location.reload(true);
         window.location.replace("<%= url_for(action: action_name, period: @period, chart: @chart_tile["type"]) %>");
       });
+      $('#date').datepicker().on('changeDate', function(e) {
+        $('#filter_form').submit();
+      });
     };
 
     var toggleLoading;

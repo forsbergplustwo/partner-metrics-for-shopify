@@ -9,7 +9,7 @@
     <select id="period" class="form-control" name="period" onchange="$('#filter_form').submit();">
       <%= options_for_select([['Monthly', 30], ['Weekly', 7], ['Daily', 1]], @period) %>
     </select>
-    <input id="date" data-provide="datepicker" data-date-format="yyyy/mm/dd" data-date-end-date="<%= @latest_metric_date %>"class="form-control" name="date" onchange="$('#filter_form').submit();" type="text" value="<%= @date %>">
+    <input id="date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-container="body" data-date-end-date="<%= @latest_metric_date %>" class="form-control" name="date" type="text" value="<%= @date %>">
     <input id="chart" name="chart" type="hidden" value='<%= @chart_tile["type"] %>'>
     <input type="submit" value="Filter" style="display: none;">
   </div>
