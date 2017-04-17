@@ -22,6 +22,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'groupdate'
 gem 'convenient_grouper'
 gem "chartkick"
+gem 'activerecord-import'
 
 group :development do
   gem 'better_errors'

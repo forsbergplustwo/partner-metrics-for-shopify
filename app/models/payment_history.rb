@@ -5,19 +5,19 @@ class PaymentHistory < ActiveRecord::Base
     def import_csv(last_calculated_metric_date, filename)
       PaymentHistory.where("payment_date > ?", last_calculated_metric_date).delete_all
       options = {:key_mapping => {:payment_duration => nil, :payment_date => nil, :charge_creation_time => :payment_date, :partner_share => :revenue}}
-      PaymentHistory.transaction do
-        c = SmarterCSV.process(filename, options) do |csv|
-          if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
-            csv.first[:app_title] = "Unknown" if csv.first[:app_title].blank?
-            csv.first[:charge_type] = "recurring_revenue" if csv.first[:charge_type] == "RecurringApplicationFee"
-            csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "OneTimeApplicationFee"
-            csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "ThemePurchaseFee"
-            csv.first[:charge_type] = "affiliate_revenue" if csv.first[:charge_type] == "AffiliateFee"
-            csv.first[:charge_type] = "refund" if csv.first[:charge_type] == "Manual"
-            PaymentHistory.create(csv.first)
-          end
+      payments = []
+      c = SmarterCSV.process(filename, options) do |csv|
+        if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
+          csv.first[:app_title] = "Unknown" if csv.first[:app_title].blank?
+          csv.first[:charge_type] = "recurring_revenue" if csv.first[:charge_type] == "RecurringApplicationFee"
+          csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "OneTimeApplicationFee"
+          csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "ThemePurchaseFee"
+          csv.first[:charge_type] = "affiliate_revenue" if csv.first[:charge_type] == "AffiliateFee"
+          csv.first[:charge_type] = "refund" if csv.first[:charge_type] == "Manual"
+          payments << PaymentHistory.new(csv.first)
         end
       end
+      PaymentHistory.import payments
     end
 
 
@@ -34,6 +34,7 @@ class PaymentHistory < ActiveRecord::Base
       calculate_to = PaymentHistory.order("payment_date").last.payment_date - 1.day #Process only full days (export day may contain partial data)
       #Loop through each date in the range
       calculate_from.upto(calculate_to) do |date|
+        metrics_for_date = []
         #Then loop through each of the charge types
         charge_types.each do |charge_type|
           #Then loop through each of the app titles for this charge type to calculate those specific metrics for the day
@@ -104,24 +105,25 @@ class PaymentHistory < ActiveRecord::Base
               puts "Repeat Customers: #{repeat_customers}"
               puts "Repeat vs New: #{repeat_vs_new_customers}"
 
-              Metric.create(
-              :metric_date => date,
-              :charge_type => charge_type,
-              :app_title => app_title,
-              :revenue => revenue,
-              :number_of_charges => number_of_charges,
-              :number_of_shops => number_of_shops,
-              :average_revenue_per_shop => average_revenue_per_shop,
-              :average_revenue_per_charge => average_revenue_per_charge,
-              :revenue_churn => revenue_churn,
-              :shop_churn => shop_churn,
-              :lifetime_value => lifetime_value,
-              :repeat_customers => repeat_customers,
-              :repeat_vs_new_customers => repeat_vs_new_customers
+              metrics_for_date << Metric.new(
+                :metric_date => date,
+                :charge_type => charge_type,
+                :app_title => app_title,
+                :revenue => revenue,
+                :number_of_charges => number_of_charges,
+                :number_of_shops => number_of_shops,
+                :average_revenue_per_shop => average_revenue_per_shop,
+                :average_revenue_per_charge => average_revenue_per_charge,
+                :revenue_churn => revenue_churn,
+                :shop_churn => shop_churn,
+                :lifetime_value => lifetime_value,
+                :repeat_customers => repeat_customers,
+                :repeat_vs_new_customers => repeat_vs_new_customers
               )
             end
           end
         end
+        Metric.import metrics_for_date
       end
     end
 
