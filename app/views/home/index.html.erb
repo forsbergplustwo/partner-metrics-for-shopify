@@ -16,7 +16,7 @@
     <div class="col-sm-12 col-md-6">
       <div class="panel panel-default animated fadeIn">
         <div class="panel-body">
-          <%= pie_chart Metric.where(metric_date: @date_last..@date).group(:charge_type).sum(:revenue) %>
+          <%= column_chart Metric.where(metric_date: @date_last..@date).group(:charge_type).sum(:revenue) %>
         </div>
         <div class="panel-footer text-center">
           <h5>Revenue per Charge Type</h5>

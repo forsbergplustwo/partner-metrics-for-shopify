@@ -11,7 +11,6 @@ module HomeHelper
   def number_to_currency_with_precision(value)
     precision = value < 100 ? 2 : 0
     number = number_to_currency(value, precision: precision)
-    value.to_f < 0 ? '-' + number : number
   end
 
   def number_to_percentage_with_precision(value)

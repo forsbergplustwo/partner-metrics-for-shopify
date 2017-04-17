@@ -9,11 +9,19 @@ class PaymentHistory < ActiveRecord::Base
       c = SmarterCSV.process(filename, options) do |csv|
         if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
           csv.first[:app_title] = "Unknown" if csv.first[:app_title].blank?
-          csv.first[:charge_type] = "recurring_revenue" if csv.first[:charge_type] == "RecurringApplicationFee"
-          csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "OneTimeApplicationFee"
-          csv.first[:charge_type] = "onetime_revenue" if csv.first[:charge_type] == "ThemePurchaseFee"
-          csv.first[:charge_type] = "affiliate_revenue" if csv.first[:charge_type] == "AffiliateFee"
-          csv.first[:charge_type] = "refund" if csv.first[:charge_type] == "Manual"
+          csv.first[:charge_type] =
+            case csv.first[:charge_type]
+            when "RecurringApplicationFee"
+               "recurring_revenue"
+            when "OneTimeApplicationFee", "ThemePurchaseFee"
+              "onetime_revenue"
+            when "AffiliateFee"
+              "affiliate_revenue"
+            when "Manual", "ApplicationDowngradeAdjustment", "ApplicationCredit"
+              "refund"
+            else
+              csv.first[:charge_type]
+            end
           payments << PaymentHistory.new(csv.first)
         end
       end
