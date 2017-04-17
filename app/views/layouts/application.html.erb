@@ -30,7 +30,7 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-xs-12">
-                    <p>Select your "PaymentHistory" CSV file exported from your Shopify Partner Dashboard</h>
+                    <p>Select your "PaymentHistory" CSV file exported from your Shopify Partner Dashboard</p>
                       <%= form_tag(import_path, remote: true, multipart: true, id: "import_form", class: "top-buffer") do %>
                       <span class="btn btn-primary btn-file">
                         Select File<%= file_field_tag "file", onchange: "$('#import_form').submit();" %>
