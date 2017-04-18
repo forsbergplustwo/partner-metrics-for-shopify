@@ -1,0 +1,28 @@
+  <div id="heading_row" class="row animated fadeIn">
+    <%= render "heading_row", title: "Users" %>
+  </div>
+
+  <% if !@metrics.blank? %>
+
+  <div class="row" id="chart_tile">
+    <%= render "chart_tile" %>
+  </div>
+
+  <div class="row" id="metric_tiles">
+    <%= render "metric_tiles" %>
+  </div>
+
+  <% else %>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default animated shake">
+          <div class="panel-body">
+            <div class="col-sm-12 text-center">
+              <h2>Hmmm...</h2>
+                <p>Looks like you have no Users (yet!) :(</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>

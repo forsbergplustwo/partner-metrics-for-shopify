@@ -23,7 +23,7 @@
         </h3>
       </div>
       <div class="col-xs-12">
-        <%= area_chart chart_data_path(date: @date, period: @period, chart_type: @chart_tile, app_title: @app_title), library: {colors: ["#7AB55C"]} %>
+        <%= area_chart chart_data_path(date: @date, period: @period, chart_type: @chart_tile, app_title: @app_title, metric: @metric), library: {colors: ["#7AB55C"]} %>
         <hr class="hidden-xs">
       </div>
       <div class="col-xs-12 text-center visible-xs">
@@ -67,7 +67,7 @@
       <% end %>
         <% periods_ago(@period).each do |period_ago| %>
         <div class="<%= column_size %> text-center">
-          <% value = Metric.calculate_value_period_ago(period_ago, @date, @period, @chart_tile, @app_title) || 0 %>
+          <% value = @metric.calculate_value_period_ago(period_ago, @date, @period, @chart_tile, @app_title) || 0 %>
           <% change = value == 0 ? 0 : (metric_value / value * 100) - 100 %>
           <h5><%= pluralize(period_ago, period_word(@period)) %> Ago</h5>
           <% if @chart_tile["display"] == "number" %>
