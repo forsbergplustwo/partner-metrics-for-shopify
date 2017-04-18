@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
 
   #http_basic_authenticate_with name: "metrics", password: "secret", only: [:index, :recurring, :onetime, :affiliate]
-
+  
   before_action :set_params, except: [:chart_date, :import]
 
   def index
@@ -79,6 +79,12 @@ class HomeController < ApplicationController
     filename = params[:file].path
     PaymentHistory.import_csv(last_calculated_metric_date, filename)
     PaymentHistory.calculate_metrics
+    flash[:notice] = "Metrics successfully updated!"
+  end
+
+  def import_app_history
+    filename = params[:file].path
+    AppHistory.import_csv(filename)
     flash[:notice] = "Metrics successfully updated!"
   end
 

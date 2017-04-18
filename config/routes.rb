@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   post  '/'  => 'home#index'
   post  'import' => 'home#import'
+  post  'import_app_history' => 'home#import_app_history'
   get   'recurring' => 'home#recurring'
   get   'onetime' => 'home#onetime'
   get   'affiliate' => 'home#affiliate'
