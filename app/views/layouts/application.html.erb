@@ -78,13 +78,13 @@
                         </div>
                         <div class="row top-buffer">
                           <div class="col-xs-12 col-md-6 col-md-offset-3">
-                            <div id="import_progress" style="display: none;" class="animated fadeIn">
+                            <div id="import_app_history_progress" style="display: none;" class="animated fadeIn">
                               <div class="progress">
                                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                   <span>Importing..</span>
                                 </div>
                               </div>
-                              <p>This might be a good time to put the kettle on</p>
+                              <p>Time to put the kettle on?</p>
                             </div>
                           </div>
                         </div>
@@ -121,6 +121,14 @@
         //document.location.reload(true);
         window.location.replace("<%= url_for(action: action_name, period: @period, chart: @chart_tile["type"]) %>");
       });
+
+      $("#import_app_history_form")
+      .bind("ajax:beforeSend",  toggleAppHistoryLoading)
+      .bind("ajax:success", function(xhr, data, status) {
+        alert('done.');
+        window.location.replace("<%= url_for(action: action_name, period: @period, chart: @chart_tile["type"]) %>");
+      });
+
       $('#date').datepicker().on('changeDate', function(e) {
         $('#filter_form').submit();
       });
@@ -129,6 +137,11 @@
     var toggleLoading;
     toggleLoading = function() {
       $("#import_progress").show();
+    };
+
+    var toggleAppHistoryLoading;
+    toggleAppHistoryLoading = function() {
+      $("#import_app_history_progress").show();
     };
 
     $(document).ready(ready);
