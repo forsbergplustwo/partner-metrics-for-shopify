@@ -1,10 +1,11 @@
 class HomeController < ApplicationController
 
   #http_basic_authenticate_with name: "metrics", password: "secret", only: [:index, :recurring, :onetime, :affiliate]
-
+  
   before_action :set_params, except: [:chart_date, :import]
 
   def index
+    @metric = Metric
     @metrics = Metric.where(metric_date: @date_last..@date)
     @previous_metrics = Metric.where(metric_date: @previous_date_last..@previous_date)
     @tiles = Metric::OVERVIEW_TILES
@@ -16,6 +17,7 @@ class HomeController < ApplicationController
   end
 
   def recurring
+    @metric = Metric
     @app_titles = ["All"] + Metric.where(charge_type: "recurring_revenue").uniq.pluck(:app_title)
     if params["app_title"].blank? || params["app_title"] == "All"
       m = Metric.where(charge_type: "recurring_revenue")
@@ -34,6 +36,7 @@ class HomeController < ApplicationController
   end
 
   def onetime
+    @metric = Metric
     @app_titles = ["All"] + Metric.where(charge_type: "onetime_revenue").uniq.pluck(:app_title)
     if params["app_title"].blank? || params["app_title"] == "All"
       m = Metric.where(charge_type: "onetime_revenue")
@@ -52,6 +55,7 @@ class HomeController < ApplicationController
   end
 
   def affiliate
+    @metric = Metric
     if params["app_title"].blank? || params["app_title"] == "All"
       m = Metric.where(charge_type: "affiliate_revenue")
     else
@@ -68,8 +72,21 @@ class HomeController < ApplicationController
     end
   end
 
+  def users
+    @metric = UserMetric
+    @metrics = UserMetric.where(metric_date: @date_last..@date)
+    @previous_metrics = UserMetric.where(metric_date: @previous_date_last..@previous_date)
+    @tiles = UserMetric::USERS_TILES
+    if !params["chart"].blank?
+      @chart_tile = @tiles.select {|t| t["type"] == params["chart"] }.first
+    else
+      @chart_tile = @tiles.first
+    end
+  end
+
   def chart_data
-    @metrics = Metric.get_chart_data(params["date"], params["period"].to_i, params["chart_type"], params["app_title"])
+    @metric = Object.const_get(params["metric"])
+    @metrics = @metric.get_chart_data(params["date"], params["period"].to_i, params["chart_type"], params["app_title"])
     render json: @metrics
   end
 
@@ -79,6 +96,13 @@ class HomeController < ApplicationController
     filename = params[:file].path
     PaymentHistory.import_csv(last_calculated_metric_date, filename)
     PaymentHistory.calculate_metrics
+    flash[:notice] = "Metrics successfully updated!"
+  end
+
+  def import_app_history
+    filename = params[:file].path
+    AppHistory.import_csv(filename)
+    AppHistory.calculate_metrics
     flash[:notice] = "Metrics successfully updated!"
   end
 
