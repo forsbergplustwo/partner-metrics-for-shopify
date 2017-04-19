@@ -30,11 +30,16 @@ class AppHistory < ActiveRecord::Base
         number_of_installs = AppHistory.where(date: date, event: 'ApplicationInstalledEvent').count
         number_of_uninstalls = AppHistory.where(date: date, event: 'ApplicationUninstalledEvent').count
 
+        # use an arbitrary 1 to give a high number
+        uninstall_rate = number_of_installs == 0 ? number_of_uninstalls.to_f / 1 : number_of_uninstalls.to_f / number_of_installs.to_f
+        uninstall_rate = uninstall_rate * 100
+
         metrics_for_date << UserMetric.new(
             :metric_date => date,
             :number_of_installs => number_of_installs,
             :number_of_uninstalls => number_of_uninstalls,
-            :new_users => number_of_installs - number_of_uninstalls
+            :new_users => number_of_installs - number_of_uninstalls,
+            :uninstall_rate => uninstall_rate
         )
 
         UserMetric.import metrics_for_date

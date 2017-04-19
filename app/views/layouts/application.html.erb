@@ -125,7 +125,6 @@
       $("#import_app_history_form")
       .bind("ajax:beforeSend",  toggleAppHistoryLoading)
       .bind("ajax:success", function(xhr, data, status) {
-        alert('done.');
         window.location.replace("<%= url_for(action: action_name, period: @period, chart: @chart_tile["type"]) %>");
       });
 
