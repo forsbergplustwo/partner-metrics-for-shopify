@@ -36,8 +36,8 @@ class PaymentHistory < ActiveRecord::Base
       if !latest_calculated_metric.blank?
         calculate_from = latest_calculated_metric.metric_date + 1.day
       else
-        calculate_from = PaymentHistory.order("payment_date").first.payment_date
-        #calculate_from = 6.months.ago.to_date
+        # calculate_from = PaymentHistory.order("payment_date").first.payment_date
+        calculate_from = 6.months.ago.to_date
       end
       calculate_to = PaymentHistory.order("payment_date").last.payment_date - 1.day #Process only full days (export day may contain partial data)
       #Loop through each date in the range
@@ -73,19 +73,17 @@ class PaymentHistory < ActiveRecord::Base
                 repeat_vs_new_customers = repeat_customers.to_f / number_of_shops * 100
               end
 
-              #Calculate Churn - Not very reliable
+              #Calculate Churn - Note: A shop should be charged every 30 days, however
+              #in reality this is not always the case, due to Frozen charges. This means churn will
+              #never be 100% accurate with only payment data to work with.
               if charge_type == "recurring_revenue" || charge_type == "affiliate_revenue"
-                #previous_date = date - 33.days # Can't do just - 30 because sometimes they are charged not exactly 30 days later, might be slightly before or after.
-                #safety_buffer = 7.days #Needed because Shopify will roll some to next date. So we check for if they payed after 29, 30 or 31 days
                 previous_shops = PaymentHistory.where(payment_date: date-59.days..date-30.days, charge_type: charge_type, app_title: app_title).group_by(&:shop)
                 puts "Previous Shops: #{previous_shops.size}"
                 if previous_shops.size != 0
-                  current_shops = PaymentHistory.where(payment_date: date-29..date, charge_type: charge_type, app_title: app_title).group_by(&:shop)
+                  current_shops = PaymentHistory.where(payment_date: date-29.days..date, charge_type: charge_type, app_title: app_title).group_by(&:shop)
                   churned_shops = previous_shops.reject { |h| current_shops.include? h }
                   shop_churn = churned_shops.size / previous_shops.size.to_f
                   shop_churn = 0.0 if shop_churn.nan?
-                  lifetime_value = average_revenue_per_shop / shop_churn if shop_churn != 0.0
-                  shop_churn = shop_churn * 100
                   churned_sum = 0.0
                   churned_shops.each do |shop|
                     shop[1].each do |payment|
@@ -101,6 +99,8 @@ class PaymentHistory < ActiveRecord::Base
                   revenue_churn = churned_sum / previous_sum
                   revenue_churn = 0.0 if revenue_churn.nan?
                   revenue_churn = revenue_churn * 100
+                  lifetime_value = ((previous_sum / previous_shops.size) / shop_churn) if shop_churn != 0.0
+                  shop_churn = shop_churn * 100
                 end
               end
               puts "Revenue: #{revenue}"
