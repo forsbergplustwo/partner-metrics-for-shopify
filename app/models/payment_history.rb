@@ -36,8 +36,8 @@ class PaymentHistory < ActiveRecord::Base
       if !latest_calculated_metric.blank?
         calculate_from = latest_calculated_metric.metric_date + 1.day
       else
-        # calculate_from = PaymentHistory.order("payment_date").first.payment_date
-        calculate_from = 6.months.ago.to_date
+        calculate_from = PaymentHistory.order("payment_date").first.payment_date
+        # calculate_from = 6.months.ago.to_date
       end
       calculate_to = PaymentHistory.order("payment_date").last.payment_date - 1.day #Process only full days (export day may contain partial data)
       #Loop through each date in the range
