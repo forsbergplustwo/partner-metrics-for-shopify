@@ -83,6 +83,7 @@ class PaymentHistory < ActiveRecord::Base
                   current_shops = PaymentHistory.where(payment_date: date-29..date, charge_type: charge_type, app_title: app_title).group_by(&:shop)
                   churned_shops = previous_shops.reject { |h| current_shops.include? h }
                   shop_churn = churned_shops.size / previous_shops.size.to_f
+                  shop_churn = 0.0 if shop_churn.nan?
                   lifetime_value = average_revenue_per_shop / shop_churn if shop_churn != 0.0
                   shop_churn = shop_churn * 100
                   churned_sum = 0.0
@@ -98,6 +99,7 @@ class PaymentHistory < ActiveRecord::Base
                     end
                   end
                   revenue_churn = churned_sum / previous_sum
+                  revenue_churn = 0.0 if revenue_churn.nan?
                   revenue_churn = revenue_churn * 100
                 end
               end
