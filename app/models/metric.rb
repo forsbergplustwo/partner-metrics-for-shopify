@@ -70,8 +70,8 @@ class Metric < ActiveRecord::Base
         current = current.sum(type["column"])
         previous = previous.sum(type["column"])
       else
-        current = current.average(type["column"])
-        previous = previous.average(type["column"])
+        current = current.average(type["column"]) || 0
+        previous = previous.average(type["column"]) || 0
       end
       change = (current.to_f / previous * 100) - 100
       change
