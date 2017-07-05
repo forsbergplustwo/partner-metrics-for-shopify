@@ -1,12 +1,28 @@
+require 'zip'
+
 class PaymentHistory < ActiveRecord::Base
 
   class << self
 
-    def import_csv(last_calculated_metric_date, filename)
+    def import_csv(last_calculated_metric_date, uploaded_file)
+      #If we are passed a zip file, extract it first
+      if uploaded_file.original_filename.include?('.zip')
+        csv_file = Tempfile.new(['extracted', '.csv'], 'tmp')
+        Zip.on_exists_proc = true
+        Zip.continue_on_exists_proc = true
+        Zip::File.open(uploaded_file.path) do |zip_file|
+          # Handle entries one by one
+          zip_file.each do |entry|
+            entry.extract(csv_file)
+          end
+        end
+      else
+        csv_file = uploaded_file
+      end
       PaymentHistory.where("payment_date > ?", last_calculated_metric_date).delete_all
       options = {:key_mapping => {:payment_duration => nil, :payment_date => nil, :charge_creation_time => :payment_date, :partner_share => :revenue}}
       payments = []
-      c = SmarterCSV.process(filename, options) do |csv|
+      c = SmarterCSV.process(csv_file.path, options) do |csv|
         if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
           csv.first[:app_title] = "Unknown" if csv.first[:app_title].blank?
           csv.first[:charge_type] =
@@ -26,6 +42,7 @@ class PaymentHistory < ActiveRecord::Base
         end
       end
       PaymentHistory.import payments
+      csv_file.close
     end
 
 

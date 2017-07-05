@@ -23,6 +23,7 @@ gem 'groupdate'
 gem 'convenient_grouper'
 gem "chartkick"
 gem 'activerecord-import'
+gem 'rubyzip'
 
 group :development do
   gem 'better_errors'
