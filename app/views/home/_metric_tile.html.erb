@@ -6,7 +6,7 @@
       <div class="panel-body">
         <div class="col-xs-6">
           <% if tile["display"] == "number" %>
-          <h2><%= metric_value %></h2>
+          <h2><%= number_with_delimiter(metric_value, delimeter: ',') %></h2>
           <% elsif tile["display"] == "percentage" %>
           <h2><%= number_to_percentage(metric_value, precision: 2) %></h2>
           <% else %>
