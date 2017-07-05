@@ -3,7 +3,7 @@ Partner Metrics - for Shopify Partners
 
 This application was built to provide an easy way to see useful metrics of your apps, themes and affiliate revenue from the Shopify Partner program.. without needing to spend a week in Excel hell.
 
-**Hosted version available ** If you are not comfortable using Ruby on Rails, a free hosted version of this app is available at [www.partnermetrics.io](https://partnermetrics.io)
+**Hosted version available** If you are not comfortable using Ruby on Rails, a free hosted version of this app is available at [www.partnermetrics.io](https://partnermetrics.io)
 
 ![Recurring Revenue Metrics](https://raw.githubusercontent.com/forsbergplustwo/partner-metrics-for-shopify/master/public/Partner_Metrics_RecurringRevenue.png)
 
