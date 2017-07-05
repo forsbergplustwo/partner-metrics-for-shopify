@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><%= image_tag 'logo.png', style: "margin-top: -2px; max-width: 190px;" %></a>
+      <%= link_to root_path, class: 'navbar-brand' do %><%= image_tag 'logo.png', style: 'margin-top: -2px; max-width: 190px' %><% end %>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

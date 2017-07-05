@@ -5,7 +5,7 @@
     <div class="panel-body">
       <div class="col-xs-12 col-sm-3 hidden-xs">
         <% if @chart_tile["display"] == "number" %>
-          <h2 class="main-metric"><%= metric_value %></h2>
+          <h2 class="main-metric"><%= number_with_delimiter(metric_value, delimiter: ',') %></h2>
         <% elsif @chart_tile["display"] == "percentage" %>
           <h2 class="main-metric"><%= number_to_percentage(metric_value, precision: 2) %></h2>
         <% else %>
@@ -30,7 +30,7 @@
         <h5>Current</h5>
         <% value = metric_value %>
         <% if @chart_tile["display"] == "number" %>
-        <h2><%= value %></h2>
+        <h2><%= number_with_delimiter(value, delimiter: ',') %></h2>
         <% elsif @chart_tile["display"] == "percentage" %>
         <h2><%= number_to_percentage(value, precision: 2) %></h2>
         <% else %>
@@ -43,7 +43,7 @@
           <h5>Daily Avg</h5>
           <% value = metric_value / @period * 1 %>
           <% if @chart_tile["display"] == "number" %>
-          <h3><%= value %></h3>
+          <h3><%= number_with_delimiter(value, delimiter: ',') %></h3>
           <% elsif @chart_tile["display"] == "percentage" %>
           <h3><%= number_to_percentage(value, precision: 2) %></h3>
           <% else %>
@@ -68,10 +68,10 @@
         <% periods_ago(@period).each do |period_ago| %>
         <div class="<%= column_size %> text-center">
           <% value = Metric.calculate_value_period_ago(period_ago, @date, @period, @chart_tile, @app_title) || 0 %>
-          <% change = value == 0 ? 0 : (metric_value / value * 100) - 100 %>
+          <% change = value == 0 ? 0 : (metric_value.to_f / value * 100) - 100 %>
           <h5><%= pluralize(period_ago, period_word(@period)) %> Ago</h5>
           <% if @chart_tile["display"] == "number" %>
-          <h3><%= value %></h3>
+          <h3><%= number_with_delimiter(value, delimiter: ',') %></h3>
           <% elsif @chart_tile["display"] == "percentage" %>
           <h3><%= number_to_percentage(value, precision: 2) %></h3>
           <% else %>
