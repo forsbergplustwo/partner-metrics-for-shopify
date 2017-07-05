@@ -13,23 +13,23 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12">
       <div class="panel panel-default animated fadeIn">
         <div class="panel-body">
-          <%= column_chart Metric.where(metric_date: @date_last..@date).group(:charge_type).sum(:revenue) %>
+          <%= pie_chart Metric.where(metric_date: 12.months.ago..@date).group(:app_title).sum(:revenue) %>
         </div>
         <div class="panel-footer text-center">
-          <h5>Revenue per Charge Type</h5>
+          <h5>Revenue per Product (Last 12 Months)</h5>
         </div>
       </div>
     </div>
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12">
       <div class="panel panel-default animated fadeIn">
         <div class="panel-body">
-          <%= pie_chart Metric.where(metric_date: @date_last..@date).group(:app_title).sum(:revenue) %>
+          <%= column_chart Metric.where(metric_date: 12.months.ago..@date).group(:charge_type).sum(:revenue) %>
         </div>
         <div class="panel-footer text-center">
-          <h5>Revenue per Product</h5>
+          <h5>Revenue per Charge Type (Last 12 Months)</h5>
         </div>
       </div>
     </div>
