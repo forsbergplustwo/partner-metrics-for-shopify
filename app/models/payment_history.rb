@@ -27,13 +27,13 @@ class PaymentHistory < ActiveRecord::Base
           csv.first[:app_title] = "Unknown" if csv.first[:app_title].blank?
           csv.first[:charge_type] =
             case csv.first[:charge_type]
-            when "RecurringApplicationFee"
+            when "RecurringApplicationFee", "Recurring application fee"
                "recurring_revenue"
-            when "OneTimeApplicationFee", "ThemePurchaseFee"
+            when "OneTimeApplicationFee", "ThemePurchaseFee", "One time application fee", "Theme purchase fee"
               "onetime_revenue"
-            when "AffiliateFee"
+            when "AffiliateFee", "Affiliate fee"
               "affiliate_revenue"
-            when "Manual", "ApplicationDowngradeAdjustment", "ApplicationCredit"
+            when "Manual", "ApplicationDowngradeAdjustment", "ApplicationCredit", "AffiliateFeeRefundAdjustment", "Application credit", "Application downgrade adjustment"
               "refund"
             else
               csv.first[:charge_type]
