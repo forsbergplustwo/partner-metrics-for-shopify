@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150423174738) do
+ActiveRecord::Schema.define(version: 20171002081526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,8 @@ ActiveRecord::Schema.define(version: 20150423174738) do
     t.datetime "updated_at"
   end
 
+  add_index "metrics", ["metric_date", "charge_type"], name: "metrics_date_and_charge_type_index", using: :btree
+
   create_table "payment_histories", force: true do |t|
     t.date     "payment_date"
     t.text     "charge_type"
@@ -42,6 +44,9 @@ ActiveRecord::Schema.define(version: 20150423174738) do
     t.decimal  "revenue",      precision: 8, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "shop_country"
   end
+
+  add_index "payment_histories", ["payment_date", "charge_type"], name: "payment_histories_date_and_charge_type_index", using: :btree
 
 end

@@ -1,3 +1,10 @@
+=== 1.2.0 (Oct 01, 2017)
+* New Feature: Show revenue by country of shop.
+* Performance: Adds database indexes on lookup columns
+* Bug fix: Shopify changed CSV file again, breaking things. This fixes + improves CSV importer to be specific about which columns to import, and ignore the rest
+**Note** Make sure to run rake db:migrate to add the new shop_country column to the database when upgrading to this version
+
+
 === 1.1.0 (April 14, 2017)
 
 * New Feature: Performce improvements for importing of data. Much faster initial import and updates.

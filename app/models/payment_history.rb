@@ -24,7 +24,8 @@ class PaymentHistory < ActiveRecord::Base
         charge_creation_time: :payment_date,
         partner_share: :revenue,
         charge_type: :charge_type,
-        app_title: :app_title
+        app_title: :app_title,
+        shop_country: :shop_country
       }
       options = {key_mapping: key_mappings, remove_unmapped_keys: true, chunk_size: 1000}
       payments = []
