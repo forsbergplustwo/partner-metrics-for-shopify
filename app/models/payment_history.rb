@@ -20,7 +20,13 @@ class PaymentHistory < ActiveRecord::Base
         csv_file = uploaded_file
       end
       PaymentHistory.where("payment_date > ?", last_calculated_metric_date).delete_all
-      options = {:key_mapping => {:payment_duration => nil, :payment_date => nil, :charge_creation_time => :payment_date, :partner_share => :revenue}}
+      key_mappings = {
+        charge_creation_time: :payment_date,
+        partner_share: :revenue,
+        charge_type: :charge_type,
+        app_title: :app_title
+      }
+      options = {key_mapping: key_mappings, remove_unmapped_keys: true, chunk_size: 1000}
       payments = []
       c = SmarterCSV.process(csv_file.path, options) do |csv|
         if Date.parse(csv.first[:payment_date]) > ( last_calculated_metric_date )
