@@ -1,3 +1,7 @@
+=== 1.2.1 (Oct 01, 2017)
+* Bug fix: Make sure to import the "shop" column as well, kinda important :(
+
+
 === 1.2.0 (Oct 01, 2017)
 * New Feature: Show revenue by country of shop.
 * Performance: Adds database indexes on lookup columns

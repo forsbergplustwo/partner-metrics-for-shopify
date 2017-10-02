@@ -21,6 +21,7 @@ class PaymentHistory < ActiveRecord::Base
       end
       PaymentHistory.where("payment_date > ?", last_calculated_metric_date).delete_all
       key_mappings = {
+        shop: :shop,
         charge_creation_time: :payment_date,
         partner_share: :revenue,
         charge_type: :charge_type,
