@@ -1,3 +1,7 @@
+=== 1.2.2 (Dec 15, 2017)
+* Bug fix: Handle chunked rows on import of Payment History - thanks to [Alex](https://github.com/forsbergplustwo/partner-metrics-for-shopify/commit/40b5113607858d84818c309e2730c45cd01e9751) for the fix!
+* Refactor: Update variable names on import_csv method to make things easier to read and debug
+
 === 1.2.1 (Oct 01, 2017)
 * Bug fix: Make sure to import the "shop" column as well, kinda important :(
 
