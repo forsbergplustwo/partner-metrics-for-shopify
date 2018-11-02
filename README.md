@@ -1,3 +1,5 @@
+**NO LONGER MAINTAINED** This repository is no longer maintained. I suggest using the hosted version instead ([www.partnermetrics.io](https://partnermetrics.io)), which is still fully supported.
+
 Partner Metrics - for Shopify Partners
 ================
 
