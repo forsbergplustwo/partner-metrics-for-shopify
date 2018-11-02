@@ -12,7 +12,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'bootstrap-sass'
 gem 'high_voltage'
-gem 'pg'
+gem 'pg', '< 1.0.0'
 gem 'thin'
 gem 'foreman'
 
