@@ -1,10 +1,4 @@
-**NO LONGER MAINTAINED** This repository is no longer maintained.
-
-**ALTERNATIVES**
-
-**PartnerMetrics.io** A free hosted version of Partner Metrics for Shopify is available at [www.partnermetrics.io](https://partnermetrics.io).
-
-**Baremetrics.com** Now supports Shopify Apps - you can link your Shopify Partner payments data and get all kinds of great recurring revenue metrics at [www.baremetrics.com](https://www.baremetrics.com)
+**NO LONGER MAINTAINED** This repository is no longer maintained. I suggest using the hosted version instead ([www.partnermetrics.io](https://partnermetrics.io)), which is still fully supported.
 
 Partner Metrics - for Shopify Partners
 ================
